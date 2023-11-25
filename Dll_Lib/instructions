@@ -1,0 +1,48 @@
+// compile and create the dll as a shared lib, the file has to be 
+// precedented with lib
+g++ -shared -Wl,-soname,libmydll.so.1 -fPIC -o libmydll.so.1.0 FibLib.h FibLib.cpp
+// move it to the lib dir so it can be seen 
+sudo mv libmydll.so.1.0 /lib
+
+
+//The link to /opt/lib/libctest.so.1 allows the run time binding to work. See dependency below.
+sudo ln -sf /lib/libmydll.so.1.0 /lib/libmydll.so.1
+
+
+//The link to /opt/lib/libctest.so allows the naming convention for the compile flag -lctest to work
+sudo ln -sf /lib/libmydll.so.1 /lib/libmydll.so
+
+// create the dll consumer and link the dll to it
+g++ -Wall -L/lib dllconsumer.cpp -lmydll -o prog
+
+
+///////////////////////////////////////////////////////////////////
+
+ldd prog ==> shows the dependencies of the bin file
+	linux-vdso.so.1 =>  (0x00007ffc5203d000)
+	libmydll.so.1 => /lib/libmydll.so.1 (0x00007f725ab96000)
+	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f725a814000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f725a44a000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f725a141000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f725ad98000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f7259f2b000)
+
+
+///////////////////////////////////////////////////////////////////
+
+nm -D --defined-only /lib/libmydll.so
+
+==> The command "nm" lists symbols contained in the archive library: 
+0000000000201028 B __bss_start
+0000000000201028 D _edata
+0000000000201048 B _end
+0000000000000808 T _fini
+00000000000005b8 T _init
+0000000000000710 T _Z14fibonacci_inityy
+000000000000073f T _Z14fibonacci_nextv
+00000000000007c6 T _Z15fibonacci_indexv
+00000000000007b9 T _Z17fibonacci_currentv
+00000000000007d2 W _ZSt4swapIyEvRT_S1_
+
+
+

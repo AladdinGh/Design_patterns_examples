@@ -1,0 +1,4 @@
+/home/aladdin/Desktop/Projects/SOME_IP_Example/Training_examples-e/Example_config_file/build/CMakeFiles/rebuild_cache.dir
+/home/aladdin/Desktop/Projects/SOME_IP_Example/Training_examples-e/Example_config_file/build/CMakeFiles/edit_cache.dir
+/home/aladdin/Desktop/Projects/SOME_IP_Example/Training_examples-e/Example_config_file/build/CMakeFiles/client.dir
+/home/aladdin/Desktop/Projects/SOME_IP_Example/Training_examples-e/Example_config_file/build/CMakeFiles/server.dir
